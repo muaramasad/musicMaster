@@ -11,8 +11,12 @@ class App extends Component {
     }
 
     search() {
-        console.log('this state ', this.state)
+        console.log('this state ', this.state);
+        const BASE_URL = 'https://api.spotify.com/v1/search?';
+        const FETCH_URL = BASE_URL + 'q=' + this.state.query + '&type=artist&limit=1';
+        console.log('FETCH URL',FETCH_URL);
     }
+
     render() {
         return (
             <div className="App">
@@ -22,8 +26,14 @@ class App extends Component {
                         <FormControl 
                             type="text"
                             placeholder="search from an artist..."
-                            query={this.state.query}
+                            value={this.state.query}
                             onChange={event => {this.setState({query: event.target.value})}}
+                            // search when Enter key is pressed
+                            onKeyPress={
+                                event => {
+                                    return event.key === 'Enter' ? this.search() : ''
+                                }
+                            }
                     />
                     <InputGroup.Addon onClick={() => this.search()}>
                         <Glyphicon glyph="search"></Glyphicon>
